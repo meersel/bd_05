@@ -1,0 +1,779 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>/tags/css/</loc>
+    <lastmod>2020-01-24T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="fr"
+                href="/fr/tags/css/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="/tags/css/"
+                />
+  </url>
+  
+  <url>
+    <loc>/tags/html/</loc>
+    <lastmod>2020-01-24T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="fr"
+                href="/fr/tags/html/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="/tags/html/"
+                />
+  </url>
+  
+  <url>
+    <loc>/tags/markdown/</loc>
+    <lastmod>2020-01-24T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="fr"
+                href="/fr/tags/markdown/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="/tags/markdown/"
+                />
+  </url>
+  
+  <url>
+    <loc>/posts/markdown-syntax/</loc>
+    <lastmod>2020-01-24T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/</loc>
+    <lastmod>2020-01-24T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/</loc>
+    <lastmod>2020-01-24T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="fr"
+                href="/fr/tags/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="pl"
+                href="/pl/tags/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="pt"
+                href="/pt/tags/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="de"
+                href="/de/tags/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="es"
+                href="/es/tags/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-cn"
+                href="/zh-cn/tags/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-tw"
+                href="/zh-tw/tags/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="ja"
+                href="/ja/tags/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="/tags/"
+                />
+  </url>
+  
+  <url>
+    <loc>/tags/themes/</loc>
+    <lastmod>2020-01-24T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="fr"
+                href="/fr/tags/themes/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="/tags/themes/"
+                />
+  </url>
+  
+  <url>
+    <loc>/tags/privacy/</loc>
+    <lastmod>2020-01-02T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/posts/rich-content/</loc>
+    <lastmod>2020-01-02T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/shortcodes/</loc>
+    <lastmod>2020-01-02T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/posts/placeholder-text/</loc>
+    <lastmod>2019-12-17T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/text/</loc>
+    <lastmod>2019-12-17T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/posts/math-typesetting/</loc>
+    <lastmod>2019-12-12T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/emoji/</loc>
+    <lastmod>2019-12-03T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="fr"
+                href="/fr/tags/emoji/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="/tags/emoji/"
+                />
+  </url>
+  
+  <url>
+    <loc>/posts/emoji-support/</loc>
+    <lastmod>2019-12-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/about/</loc>
+    <lastmod>2019-06-17T23:53:00+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/code/</loc>
+    <lastmod>2019-06-17T23:53:00+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/credits/</loc>
+    <lastmod>2019-06-17T23:53:00+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/custom_image/</loc>
+    <lastmod>2019-06-17T23:53:00+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/custom_summary/</loc>
+    <lastmod>2019-06-17T23:53:00+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/default_image/</loc>
+    <lastmod>2019-06-17T23:53:00+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/topic_2/example_1_topic_2/</loc>
+    <lastmod>2019-06-17T23:53:00+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/topic_2/subtopic_4/example_2_subtopic_4/</loc>
+    <lastmod>2019-06-17T23:53:00+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/</loc>
+    <lastmod>2019-06-17T23:53:00+01:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="fr"
+                href="/fr/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="pl"
+                href="/pl/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="pt"
+                href="/pt/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="de"
+                href="/de/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="es"
+                href="/es/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-cn"
+                href="/zh-cn/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-tw"
+                href="/zh-tw/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="ja"
+                href="/ja/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="/"
+                />
+  </url>
+  
+  <url>
+    <loc>/tags/leaf_bundle/</loc>
+    <lastmod>2019-06-17T23:53:00+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/love/</loc>
+    <lastmod>2019-06-17T23:53:00+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/no_summary/</loc>
+    <lastmod>2019-06-17T23:53:00+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/topic_2/subtopic_3/example_1_subtopic_3/</loc>
+    <lastmod>2019-06-17T23:53:00+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/topic_2/subtopic_3/example_2_subtopic_3/</loc>
+    <lastmod>2019-06-17T23:53:00+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/topic_2/subtopic_4/example_1_subtopic_4/</loc>
+    <lastmod>2019-06-17T23:53:00+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/topic_1/example_1_topic_1/</loc>
+    <lastmod>2019-06-17T23:53:00+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/topic_1/example_2_topic_1/</loc>
+    <lastmod>2019-06-17T23:53:00+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/topic_1/example_1_topic_1.ru/</loc>
+    <lastmod>2019-06-17T23:53:00+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/topic_1/example_3_topic_1/</loc>
+    <lastmod>2019-06-17T23:53:00+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/topic_2/example_2_topic_2/</loc>
+    <lastmod>2019-06-17T23:53:00+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/topic_2/subtopic_3/</loc>
+    <lastmod>2019-06-04T21:55:06+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/topic_2/subtopic_4/</loc>
+    <lastmod>2019-06-04T21:55:06+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/topic_1/</loc>
+    <lastmod>2019-06-04T21:55:06+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/topic_2/</loc>
+    <lastmod>2019-06-04T21:55:06+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/archives/</loc>
+    <lastmod>2019-05-28T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/about/</loc>
+    <lastmod>2019-05-28T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/blog/</loc>
+    <lastmod>2019-03-11T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="fr"
+                href="/fr/blog/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="/blog/"
+                />
+  </url>
+  
+  <url>
+    <loc>/categories/</loc>
+    <lastmod>2019-03-11T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="fr"
+                href="/fr/categories/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="pl"
+                href="/pl/categories/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="pt"
+                href="/pt/categories/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="de"
+                href="/de/categories/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="es"
+                href="/es/categories/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-cn"
+                href="/zh-cn/categories/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-tw"
+                href="/zh-tw/categories/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="ja"
+                href="/ja/categories/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="/categories/"
+                />
+  </url>
+  
+  <url>
+    <loc>/blog/markdown-syntax/</loc>
+    <lastmod>2019-03-11T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="fr"
+                href="/fr/blog/markdown-syntax/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="/blog/markdown-syntax/"
+                />
+  </url>
+  
+  <url>
+    <loc>/categories/syntax/</loc>
+    <lastmod>2019-03-11T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="fr"
+                href="/fr/categories/syntax/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="/categories/syntax/"
+                />
+  </url>
+  
+  <url>
+    <loc>/categories/themes/</loc>
+    <lastmod>2019-03-11T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="fr"
+                href="/fr/categories/themes/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="/categories/themes/"
+                />
+  </url>
+  
+  <url>
+    <loc>/blog/rich-content/</loc>
+    <lastmod>2019-03-10T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/blog/placeholder-text/</loc>
+    <lastmod>2019-03-09T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/blog/emoji-support/</loc>
+    <lastmod>2019-03-05T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="fr"
+                href="/fr/blog/emoji-support/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="/blog/emoji-support/"
+                />
+  </url>
+  
+  <url>
+    <loc>/post/readme/</loc>
+    <lastmod>2019-01-09T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/istio/</loc>
+    <lastmod>2018-06-04T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/2018/06/04/introducing-the-istio-v1alpha3-routing-api/</loc>
+    <lastmod>2018-06-04T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/tech/</loc>
+    <lastmod>2018-06-04T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/2018/06/02/istio08/</loc>
+    <lastmod>2018-06-02T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/2018/05/24/set_up_my_ubuntu_desktop/</loc>
+    <lastmod>2018-05-24T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/tips/</loc>
+    <lastmod>2018-05-24T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/ubuntu/</loc>
+    <lastmod>2018-05-24T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/microservice/</loc>
+    <lastmod>2018-05-23T18:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/security/</loc>
+    <lastmod>2018-05-23T18:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/2018/05/23/external_system_auth/</loc>
+    <lastmod>2018-05-23T18:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/2018/05/23/service_2_service_auth/</loc>
+    <lastmod>2018-05-23T15:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/2018/05/22/user_authentication_authorization/</loc>
+    <lastmod>2018-05-23T10:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/2018/05/23/istio-auto-injection-with-webhook/</loc>
+    <lastmod>2018-05-23T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/kubernetes/</loc>
+    <lastmod>2018-05-23T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/bitcoin/</loc>
+    <lastmod>2018-05-21T11:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/jekyllq/</loc>
+    <lastmod>2018-05-21T11:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/note/</loc>
+    <lastmod>2018-05-21T11:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/2018/05/21/algolia-integration-with-jekyll/</loc>
+    <lastmod>2018-05-21T11:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/life/</loc>
+    <lastmod>2018-05-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/travel/</loc>
+    <lastmod>2018-05-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/2018/05/01/may-day-jiulonghu/</loc>
+    <lastmod>2018-05-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/helm/</loc>
+    <lastmod>2018-04-16T15:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/2018/04/16/using-helm-to-deploy-to-kubernetes/</loc>
+    <lastmod>2018-04-16T15:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/api-gateway/</loc>
+    <lastmod>2018-04-11T09:32:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/service-mesh/</loc>
+    <lastmod>2018-04-11T09:32:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/2018/04/11/service-mesh-vs-api-gateway/</loc>
+    <lastmod>2018-04-11T09:32:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/2018/03/29/what-is-service-mesh-and-istio/</loc>
+    <lastmod>2018-03-29T12:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/docker/</loc>
+    <lastmod>2018-03-13T18:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/tips/</loc>
+    <lastmod>2018-03-13T18:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/2018/03/13/use-docker-behind-http-proxy/</loc>
+    <lastmod>2018-03-13T18:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/vim/</loc>
+    <lastmod>2018-02-09T11:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/2018/02/09/vim-tips/</loc>
+    <lastmod>2018-02-09T11:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/2018/02/09/docker-without-sudo/</loc>
+    <lastmod>2018-02-09T10:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/2018/05/22/user_authentication_authorization/</loc>
+    <lastmod>2018-02-03T12:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/nginmesh/</loc>
+    <lastmod>2018-01-02T12:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/2018/01/02/nginmesh-install/</loc>
+    <lastmod>2018-01-02T12:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/2017/11/28/access-application-from-outside/</loc>
+    <lastmod>2017-11-28T12:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/2017/11/08/istio-canary-release/</loc>
+    <lastmod>2017-11-08T15:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/2017/11/07/istio-traffic-shifting/</loc>
+    <lastmod>2017-11-07T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/2017/11/04/istio-install_and_example/</loc>
+    <lastmod>2017-11-04T12:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/2017/11/03/hello-world/</loc>
+    <lastmod>2017-11-04T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/2016-12-30-hello-markdown/</loc>
+    <lastmod>2016-12-30T21:49:57-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/2015-07-23-r-rmarkdown/</loc>
+    <lastmod>2015-07-23T21:13:14-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/plot/</loc>
+    <lastmod>2015-07-23T21:13:14-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/r/</loc>
+    <lastmod>2015-07-23T21:13:14-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/r-markdown/</loc>
+    <lastmod>2015-07-23T21:13:14-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/regression/</loc>
+    <lastmod>2015-07-23T21:13:14-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/2015-01-01-lorem-ipsum/</loc>
+    <lastmod>2015-01-01T13:09:13-06:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/about/</loc>
+    <lastmod>2014-04-09T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="pl"
+                href="/pl/about/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="fr"
+                href="/fr/about/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="pt"
+                href="/pt/about/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="/about/"
+                />
+  </url>
+  
+  <url>
+    <loc>/search/placeholder/</loc>
+  </url>
+  
+  <url>
+    <loc>/top/about/</loc>
+  </url>
+  
+  <url>
+    <loc>/top/books/</loc>
+  </url>
+  
+  <url>
+    <loc>/contact/_index.br/</loc>
+  </url>
+  
+  <url>
+    <loc>/search/</loc>
+  </url>
+  
+  <url>
+    <loc>/top/</loc>
+  </url>
+  
+</urlset>

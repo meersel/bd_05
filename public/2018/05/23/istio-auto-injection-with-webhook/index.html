@@ -1,0 +1,633 @@
+<!doctype html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8">
+<title>Istio Sidecar自动注入原理 - Hugo Future Imperfect Slim</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<meta name="generator" content="Hugo 0.68.3" /><meta itemprop="name" content="Istio Sidecar自动注入原理">
+<meta itemprop="description" content="Kubernets 1.9版本引入了Admission Webhook(web 回调)扩展机制，通过Webhook,开发者可以非常灵活地对Kubernets API Server的功能进行扩展，在API Server创建资源时对资源进行验证或者修改。 Istio 0.7版本就利用了Kubernets webhook实现了sidecar的自动注入。">
+<meta itemprop="datePublished" content="2018-05-23T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2018-05-23T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="145">
+
+
+
+<meta itemprop="keywords" content="Kubernetes,Istio," /><meta property="og:title" content="Istio Sidecar自动注入原理" />
+<meta property="og:description" content="Kubernets 1.9版本引入了Admission Webhook(web 回调)扩展机制，通过Webhook,开发者可以非常灵活地对Kubernets API Server的功能进行扩展，在API Server创建资源时对资源进行验证或者修改。 Istio 0.7版本就利用了Kubernets webhook实现了sidecar的自动注入。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/2018/05/23/istio-auto-injection-with-webhook/" />
+<meta property="article:published_time" content="2018-05-23T00:00:00+00:00" />
+<meta property="article:modified_time" content="2018-05-23T00:00:00+00:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Istio Sidecar自动注入原理"/>
+<meta name="twitter:description" content="Kubernets 1.9版本引入了Admission Webhook(web 回调)扩展机制，通过Webhook,开发者可以非常灵活地对Kubernets API Server的功能进行扩展，在API Server创建资源时对资源进行验证或者修改。 Istio 0.7版本就利用了Kubernets webhook实现了sidecar的自动注入。"/>
+<meta name="twitter:site" content="@example"/>
+<link rel="stylesheet" href="/css/bundle.min.a86839252b4aa4853111ceba45af5da1d6c3dc66a6a3b6854750bb2df61dfe37.css" integrity="sha256-qGg5JStKpIUxEc66Ra9dodbD3Gamo7aFR1C7LfYd/jc=">
+        <link rel="stylesheet" href="/css/add-on.css">
+</head>
+
+  <body>
+    
+<header id="site-header">
+  <nav id="site-nav">
+    <h1 class="nav-title">
+      <a href="/">
+        
+          
+            post
+          
+        
+      </a>
+    </h1>
+    <menu id="site-nav-menu" class="flyout-menu">
+      
+        
+          
+          
+            <a href="/" class="link"><i class='fa fa-home'></i> Home</a>
+          
+        
+      
+        
+          
+          
+            <a href="/about/" class="link"><i class='far fa-id-card'></i> About</a>
+          
+        
+      
+        
+          
+          
+            <a href="/blog/" class="link"><i class='far fa-newspaper'></i> Blog</a>
+          
+        
+      
+        
+          
+          
+            <a href="/categories/" class="link"><i class='fas fa-sitemap'></i> Categories</a>
+          
+        
+      
+        
+          
+          
+            <a href="/contact/" class="link"><i class='far fa-envelope'></i> Contact</a>
+          
+        
+      
+      <a href="#share-menu" class="share-toggle"><i class="fas fa-share-alt">&nbsp;</i>Share</a>
+      
+
+    </menu>
+    
+
+    <a href="#share-menu" class="share-toggle"><i class="fas fa-share-alt fa-2x">&nbsp;</i></a>
+    <a href="#lang-menu" class="lang-toggle" lang="en">en</a>
+    <a href="#site-nav" class="nav-toggle"><i class="fas fa-bars fa-2x"></i></a>
+  </nav>
+  <menu id="lang-menu" class="flyout-menu">
+  <a href="#" lang="en" class="link active">English (en)</a>
+  
+    
+      
+    
+      
+        <a href="/fr" lang="fr" class="no-lang link">Français (fr)</a>
+      
+    
+      
+        <a href="/pl" lang="pl" class="no-lang link">Polski (pl)</a>
+      
+    
+      
+        <a href="/pt" lang="pt" class="no-lang link">Português (pt)</a>
+      
+    
+      
+        <a href="/de" lang="de" class="no-lang link">Deutsche (de)</a>
+      
+    
+      
+        <a href="/es" lang="es" class="no-lang link">Española (es)</a>
+      
+    
+      
+        <a href="/zh-cn" lang="zh-cn" class="no-lang link">中文 (zh-cn)</a>
+      
+    
+      
+        <a href="/zh-tw" lang="zh-tw" class="no-lang link">中文 (zh-tw)</a>
+      
+    
+      
+        <a href="/ja" lang="ja" class="no-lang link">日本語 (ja)</a>
+      
+    
+  
+</menu>
+
+  
+    <menu id="share-menu" class="flyout-menu">
+      <h1>Share Post</h1>
+      
+
+
+
+
+  
+    
+    <a href="//twitter.com/share?text=Istio%20Sidecar%e8%87%aa%e5%8a%a8%e6%b3%a8%e5%85%a5%e5%8e%9f%e7%90%86&amp;url=%2f2018%2f05%2f23%2fistio-auto-injection-with-webhook%2f" target="_blank" rel="noopener" class="share-btn twitter">
+        <i class="fab fa-twitter"></i><p>&nbsp;Twitter</p>
+      </a>
+  
+
+  
+      <a href="//www.facebook.com/sharer/sharer.php?u=%2f2018%2f05%2f23%2fistio-auto-injection-with-webhook%2f" target="_blank" rel="noopener" class="share-btn facebook">
+        <i class="fab fa-facebook"></i><p>&nbsp;Facebook</p>
+        </a>
+  
+
+  
+    <a href="//www.reddit.com/submit?url=%2f2018%2f05%2f23%2fistio-auto-injection-with-webhook%2f&amp;title=Istio%20Sidecar%e8%87%aa%e5%8a%a8%e6%b3%a8%e5%85%a5%e5%8e%9f%e7%90%86" target="_blank" rel="noopener" class="share-btn reddit">
+          <i class="fab fa-reddit-alien"></i><p>&nbsp;Reddit</p>
+        </a>
+  
+
+  
+        <a href="//www.linkedin.com/shareArticle?url=%2f2018%2f05%2f23%2fistio-auto-injection-with-webhook%2f&amp;title=Istio%20Sidecar%e8%87%aa%e5%8a%a8%e6%b3%a8%e5%85%a5%e5%8e%9f%e7%90%86" target="_blank" rel="noopener" class="share-btn linkedin">
+            <i class="fab fa-linkedin"></i><p>&nbsp;LinkedIn</p>
+          </a>
+  
+
+  
+        <a href="//www.pinterest.com/pin/create/button/?url=%2f2018%2f05%2f23%2fistio-auto-injection-with-webhook%2f&amp;description=Istio%20Sidecar%e8%87%aa%e5%8a%a8%e6%b3%a8%e5%85%a5%e5%8e%9f%e7%90%86" target="_blank" rel="noopener" class="share-btn pinterest">
+          <i class="fab fa-pinterest-p"></i><p>&nbsp;Pinterest</p>
+        </a>
+  
+
+  
+        <a href="mailto:?subject=Check%20out%20this%20post%20by %c2%a0%20%c2%a0%20%22%e8%b5%b5%e5%8c%96%e5%86%b0%22&amp;body=%2f2018%2f05%2f23%2fistio-auto-injection-with-webhook%2f" target="_blank" class="share-btn email" data-proofer-ignore>
+          <i class="fas fa-envelope"></i><p>&nbsp;Email</p>
+        </a>
+  
+
+
+    </menu>
+  
+</header>
+
+    <div id="wrapper">
+      <section id="site-intro" >
+  <a href="/"><img src="/img/main/logo.jpg" class="circle" width="" alt="Hugo Future Imperfect Slim" /></a>
+  <header>
+    <h1>Hugo Future Imperfect Slim</h1>
+  </header>
+  <main>
+    <p>Another fine, responsive site template by <a href='http://html5up.net'>HTML5 UP</a>.</p>
+  </main>
+  
+    <footer>
+      <ul class="socnet-icons">
+        
+
+        <li><a href="//github.com/pacollins/hugo-future-imperfect-slim" target="_blank" rel="noopener" title="GitHub" class="fab fa-github"></a></li>
+
+
+
+
+
+
+<li><a href="//flickr.com/photos/example" target="_blank" rel="noopener" title="Flickr" class="fab fa-flickr"></a></li>
+
+
+
+
+<li><a href="//linkedin.com/in/example" target="_blank" rel="noopener" title="LinkedIn" class="fab fa-linkedin"></a></li>
+<li><a href="//linkedin.com/company/examplebusiness" target="_blank" rel="noopener" title="LinkedIn Company" class="fab fa-linkedin"></a></li>
+
+
+
+<li><a href="//facebook.com/example" target="_blank" rel="noopener" title="Facebook" class="fab fa-facebook"></a></li>
+<li><a href="//reddit.com/user/example" target="_blank" rel="noopener" title="Reddit" class="fab fa-reddit"></a></li>
+
+
+
+
+
+
+
+<li><a href="//instagram.com/example" target="_blank" rel="noopener" title="Instagram" class="fab fa-instagram"></a></li>
+
+<li><a href="//twitter.com/example" target="_blank" rel="noopener" title="Twitter" class="fab fa-twitter"></a></li>
+
+
+<li><a href="//pinterest.com/example" target="_blank" rel="noopener" title="Pinterest" class="fab fa-pinterest-p"></a></li>
+<li><a href="//telegram.me/example" target="_blank" rel="noopener" title="telegram" class="fab fa-telegram"></a></li>
+
+
+
+<li><a href="//researchgate.net/profile/example" target="_blank" rel="noopener" title="Research Gate"><i class="ai ai-researchgate"></i></a></li>
+<li><a href="//keybase.io/example" target="_blank" rel="noopener" title="keybase" class="fab fa-keybase"></a></li>
+<li><a href="//example.com/@example" target="_blank" rel="noopener" title="mastodon" class="fab fa-mastodon"></a></li>
+<li><a href="mailto:example" target="_blank" title="Email" class="far fa-envelope"></a></li>
+
+      </ul>
+    </footer>
+  
+</section>
+
+      <main id="site-main">
+        <article class="post">
+  <header>
+  <div class="title">
+    
+      <h2><a href="/2018/05/23/istio-auto-injection-with-webhook/">Istio Sidecar自动注入原理</a></h2>
+    
+    
+      <p>Kubernets 1.9版本引入了Admission Webhook(web 回调)扩展机制，通过Webhook,开发者可以非常灵活地对Kubernets API Server的功能进行扩展，在API Server创建资源时对资源进行验证或者修改。 Istio 0.7版本就利用了Kubernets webhook实现了sidecar的自动注入。</p>
+    
+  </div>
+  <div class="meta">
+    <time class="published" datetime="2018-05-23 00:00:00 &#43;0000 UTC">
+      May 23, 2018
+    </time>
+    <span class="author">    &#34;赵化冰&#34;</span>
+    
+      <p>1 minute read</p>
+    
+  </div>
+</header>
+
+  <section id="socnet-share">
+    
+
+
+
+
+  
+    
+    <a href="//twitter.com/share?text=Istio%20Sidecar%e8%87%aa%e5%8a%a8%e6%b3%a8%e5%85%a5%e5%8e%9f%e7%90%86&amp;url=%2f2018%2f05%2f23%2fistio-auto-injection-with-webhook%2f" target="_blank" rel="noopener" class="share-btn twitter">
+        <i class="fab fa-twitter"></i><p>&nbsp;Twitter</p>
+      </a>
+  
+
+  
+      <a href="//www.facebook.com/sharer/sharer.php?u=%2f2018%2f05%2f23%2fistio-auto-injection-with-webhook%2f" target="_blank" rel="noopener" class="share-btn facebook">
+        <i class="fab fa-facebook"></i><p>&nbsp;Facebook</p>
+        </a>
+  
+
+  
+    <a href="//www.reddit.com/submit?url=%2f2018%2f05%2f23%2fistio-auto-injection-with-webhook%2f&amp;title=Istio%20Sidecar%e8%87%aa%e5%8a%a8%e6%b3%a8%e5%85%a5%e5%8e%9f%e7%90%86" target="_blank" rel="noopener" class="share-btn reddit">
+          <i class="fab fa-reddit-alien"></i><p>&nbsp;Reddit</p>
+        </a>
+  
+
+  
+        <a href="//www.linkedin.com/shareArticle?url=%2f2018%2f05%2f23%2fistio-auto-injection-with-webhook%2f&amp;title=Istio%20Sidecar%e8%87%aa%e5%8a%a8%e6%b3%a8%e5%85%a5%e5%8e%9f%e7%90%86" target="_blank" rel="noopener" class="share-btn linkedin">
+            <i class="fab fa-linkedin"></i><p>&nbsp;LinkedIn</p>
+          </a>
+  
+
+  
+        <a href="//www.pinterest.com/pin/create/button/?url=%2f2018%2f05%2f23%2fistio-auto-injection-with-webhook%2f&amp;description=Istio%20Sidecar%e8%87%aa%e5%8a%a8%e6%b3%a8%e5%85%a5%e5%8e%9f%e7%90%86" target="_blank" rel="noopener" class="share-btn pinterest">
+          <i class="fab fa-pinterest-p"></i><p>&nbsp;Pinterest</p>
+        </a>
+  
+
+  
+        <a href="mailto:?subject=Check%20out%20this%20post%20by %c2%a0%20%c2%a0%20%22%e8%b5%b5%e5%8c%96%e5%86%b0%22&amp;body=%2f2018%2f05%2f23%2fistio-auto-injection-with-webhook%2f" target="_blank" class="share-btn email" data-proofer-ignore>
+          <i class="fas fa-envelope"></i><p>&nbsp;Email</p>
+        </a>
+  
+
+
+  </section>
+  
+
+  <div class="content">
+    <h2 id="前言">前言</h2>
+<hr>
+<p>Kubernets 1.9版本引入了Admission Webhook(web 回调)扩展机制，通过Webhook,开发者可以非常灵活地对Kubernets API Server的功能进行扩展，在API Server创建资源时对资源进行验证或者修改。</p>
+<p>使用webhook的优势是不需要对API Server的源码进行修改和重新编译就可以扩展其功能。插入的逻辑实现为一个独立的web进程，通过参数方式传入到kubernets中，由kubernets在进行自身逻辑处理时对扩展逻辑进行回调。</p>
+<p>Istio 0.7版本就利用了Kubernets webhook实现了sidecar的自动注入。</p>
+<h2 id="什么是admission">什么是Admission</h2>
+<hr>
+<p>Admission是Kubernets中的一个术语，指的是Kubernets API Server资源请求过程中的一个阶段。如下图所示，在API Server接收到资源创建请求时，首先会对请求进行认证和鉴权，然后经过Admission处理，最后再保存到etcd。
+<img src="https://img.zhaohuabing.com/in-post/2018-4-25-istio-auto-injection-with-webhook/admission-phase.png" alt="">
+从图中看到，Admission中有两个重要的阶段，Mutation和Validation，这两个阶段中执行的逻辑如下：</p>
+<ul>
+<li>
+<p>Mutation</p>
+<p>Mutation是英文“突变”的意思,从字面上可以知道在Mutation阶段可以对请求内容进行修改。</p>
+</li>
+<li>
+<p>Validation</p>
+<p>在Validation阶段不允许修改请求内容，但可以根据请求的内容判断是继续执行该请求还是拒绝该请求。</p>
+</li>
+</ul>
+<h2 id="admission-webhook">Admission webhook</h2>
+<hr>
+<p>通过Admission webhook,可以加入Mutation和Validation两种类型的webhook插件，这些插件和Kubernets提供的预编译的Admission插件具有相同的能力。可以想到的用途包括：</p>
+<ul>
+<li>修改资源。例如Istio就通过Admin Webhook在Pod资源中增加了Envoy sidecar容器。</li>
+<li>自定义校验逻辑，例如对资源名称有一些特殊要求。或者对自定义资源的合法性进行校验。</li>
+</ul>
+<h2 id="采用webhook自动注入istio-sidecar">采用Webhook自动注入Istio Sidecar</h2>
+<hr>
+<h3 id="kubernets版本要求">Kubernets版本要求</h3>
+<p>webhook支持需要Kubernets1.9或者更高的版本,使用下面的命令确认kube-apiserver的Admin webhook功能已启用。</p>
+<pre><code>kubectl api-versions | grep admissionregistration
+
+admissionregistration.k8s.io/v1beta1
+</code></pre><h3 id="生成sidecar-injection-webhook的密钥和证书">生成sidecar injection webhook的密钥和证书</h3>
+<p>Webhook使用数字证书向kube-apiserver进行身份认证，因此需要先使用工具生成密钥对，并向Istio CA申请数字证书。</p>
+<pre><code>./install/kubernetes/webhook-create-signed-cert.sh /
+    --service istio-sidecar-injector /
+    --namespace istio-system /
+    --secret sidecar-injector-certs
+</code></pre><h3 id="将生成的数字证书配置到webhook中">将生成的数字证书配置到webhook中</h3>
+<pre><code>cat install/kubernetes/istio-sidecar-injector.yaml | /
+     ./install/kubernetes/webhook-patch-ca-bundle.sh &gt; /
+     install/kubernetes/istio-sidecar-injector-with-ca-bundle.yaml
+</code></pre><h3 id="创建sidecar-injection-configmap">创建sidecar injection configmap</h3>
+<pre><code>kubectl apply -f install/kubernetes/istio-sidecar-injector-configmap-release.yaml
+</code></pre><h3 id="部署sidecar-injection-webhook">部署sidecar injection webhook</h3>
+<pre><code>kubectl apply -f install/kubernetes/istio-sidecar-injector-with-ca-bundle.yaml
+</code></pre><p>通过命令查看部署好的webhook injector</p>
+<pre><code>kubectl -n istio-system get deployment -listio=sidecar-injector
+Copy
+NAME                     DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
+istio-sidecar-injector   1         1         1            1           1d
+```
+
+### 开启需要自动注入sidecar的namespace 
+
+```
+kubectl label namespace default istio-injection=enabled
+
+kubectl get namespace -L istio-injection
+
+NAME           STATUS    AGE       ISTIO-INJECTION
+default        Active    1h        enabled
+istio-system   Active    1h        
+kube-public    Active    1h        
+kube-system    Active    1h  
+```
+
+## 参考
+
+* [Extensible Admission is Beta](https://kubernetes.io/blog/2018/01/extensible-admission-is-beta)
+* [Installing the Istio Sidecar](https://istio.io/docs/setup/kubernetes/sidecar-injection.html)
+</code></pre>
+  </div>
+  <footer>
+    <ul class="stats">
+  
+    
+    
+      <li class="categories">
+        <ul>
+          
+            
+            <li><a class="article-category-link" href="/categories/tech">Tech</a></li>
+          
+        </ul>
+      </li>
+    
+  
+  
+    
+    
+      <li class="tags">
+        <ul>
+          
+            
+            <li><a class="article-category-link" href="/tags/kubernetes">Kubernetes</a></li>
+          
+            
+            <li><a class="article-category-link" href="/tags/istio">Istio</a></li>
+          
+        </ul>
+      </li>
+    
+  
+</ul>
+
+  </footer>
+</article>
+
+
+<div class="pagination">
+  
+    <a href="/2018/05/21/algolia-integration-with-jekyll/" class="button"><div class="previous"><div>使用Algolia为Gitpage博客提供站内搜索</div></div></a>
+  
+  
+    <a href="/2018/05/22/user_authentication_authorization/" class="button"><div class="next"><div>微服务安全沉思录之一</div></div></a>
+  
+</div>
+
+
+      </main>
+      <section id="site-sidebar">
+  
+    <section id="recent-posts">
+      <header>
+        <h1>Recent posts</h1>
+      </header>
+      
+      <article class="mini-post">
+        <section>
+          
+
+        </section>
+        <header>
+          <h1><a href="/post/">Post</a></h1>
+          <time class="published" datetime="">January 24, 2020</time>
+        </header>
+      </article>
+      
+      <article class="mini-post">
+        <section>
+          
+
+        </section>
+        <header>
+          <h1><a href="/posts/rich-content/">Rich Content</a></h1>
+          <time class="published" datetime="">January 2, 2020</time>
+        </header>
+      </article>
+      
+      <article class="mini-post">
+        <section>
+          
+
+        </section>
+        <header>
+          <h1><a href="/posts/placeholder-text/">Placeholder Text</a></h1>
+          <time class="published" datetime="">December 17, 2019</time>
+        </header>
+      </article>
+      
+      <article class="mini-post">
+        <section>
+          
+
+        </section>
+        <header>
+          <h1><a href="/posts/math-typesetting/">Math Typesetting</a></h1>
+          <time class="published" datetime="">December 12, 2019</time>
+        </header>
+      </article>
+      
+      <article class="mini-post">
+        <section>
+          
+
+        </section>
+        <header>
+          <h1><a href="/post/readme/">Clean White Theme for Hugo</a></h1>
+          <time class="published" datetime="">January 9, 2019</time>
+        </header>
+      </article>
+      
+      
+        <a href="/blog/" class="button">See more</a>
+      
+    </section>
+  
+
+  
+    
+      <section id="categories">
+        <header>
+          <h1><a href="/categories">Categories</a></h1>
+        </header>
+        <ul>
+          
+            
+          
+          
+          <li>
+            
+              <a href="/categories/tech/">tech<span class="count">15</span></a>
+            
+          
+          <li>
+            
+              <a href="/categories/tips/">tips<span class="count">4</span></a>
+            
+          
+          <li>
+            
+              <a href="/categories/life/">life<span class="count">1</span></a>
+            
+          
+          <li>
+            
+              <a href="/categories/note/">note<span class="count">1</span></a>
+            
+          
+          <li>
+            
+              <a href="/categories/r/">r<span class="count">1</span></a>
+            
+          
+          <li>
+            
+              <a href="/categories/syntax/">syntax<span class="count">1</span></a>
+            
+          
+          <li>
+            
+              <a href="/categories/themes/">themes<span class="count">1</span></a>
+            
+          
+          </li>
+        </ul>
+      </section>
+    
+  
+
+  
+    <section id="mini-bio">
+      <header>
+        <h1>About</h1>
+      </header>
+      <p>test</p>
+      <footer>
+        <a href="/about" class="button">Learn More</a>
+      </footer>
+    </section>
+  
+</section>
+
+      <footer id="site-footer">
+  
+      <ul class="socnet-icons">
+        
+
+        <li><a href="//github.com/pacollins/hugo-future-imperfect-slim" target="_blank" rel="noopener" title="GitHub" class="fab fa-github"></a></li>
+
+
+
+
+
+
+<li><a href="//flickr.com/photos/example" target="_blank" rel="noopener" title="Flickr" class="fab fa-flickr"></a></li>
+
+
+
+
+<li><a href="//linkedin.com/in/example" target="_blank" rel="noopener" title="LinkedIn" class="fab fa-linkedin"></a></li>
+<li><a href="//linkedin.com/company/examplebusiness" target="_blank" rel="noopener" title="LinkedIn Company" class="fab fa-linkedin"></a></li>
+
+
+
+<li><a href="//facebook.com/example" target="_blank" rel="noopener" title="Facebook" class="fab fa-facebook"></a></li>
+<li><a href="//reddit.com/user/example" target="_blank" rel="noopener" title="Reddit" class="fab fa-reddit"></a></li>
+
+
+
+
+
+
+
+<li><a href="//instagram.com/example" target="_blank" rel="noopener" title="Instagram" class="fab fa-instagram"></a></li>
+
+<li><a href="//twitter.com/example" target="_blank" rel="noopener" title="Twitter" class="fab fa-twitter"></a></li>
+
+
+<li><a href="//pinterest.com/example" target="_blank" rel="noopener" title="Pinterest" class="fab fa-pinterest-p"></a></li>
+<li><a href="//telegram.me/example" target="_blank" rel="noopener" title="telegram" class="fab fa-telegram"></a></li>
+
+
+
+<li><a href="//researchgate.net/profile/example" target="_blank" rel="noopener" title="Research Gate"><i class="ai ai-researchgate"></i></a></li>
+<li><a href="//keybase.io/example" target="_blank" rel="noopener" title="keybase" class="fab fa-keybase"></a></li>
+<li><a href="//example.com/@example" target="_blank" rel="noopener" title="mastodon" class="fab fa-mastodon"></a></li>
+<li><a href="mailto:example" target="_blank" title="Email" class="far fa-envelope"></a></li>
+
+      </ul>
+  
+  <p class="copyright">
+    
+      &copy; 2020
+      
+        Hugo Future Imperfect Slim
+      
+    . <br>
+    Theme: <a href='https://github.com/pacollins/hugo-future-imperfect-slim' target='_blank' rel='noopener'>Hugo Future Imperfect Slim</a><br>A <a href='https://html5up.net/future-imperfect' target='_blank' rel='noopener'>HTML5 UP port</a> | Powered by <a href='https://gohugo.io/' title='0.68.3' target='_blank' rel='noopener'>Hugo</a>
+  </p>
+</footer>
+<a id="back-to-top" href="#" class="fas fa-arrow-up fa-2x"></a>
+
+      <script src="/js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script><script src="/js/bundle.min.e0c399b948d3cf5c3a5e3badb94023d0b064a19ac39fd8cd79fb9f57fa4d1091.js" integrity="sha256-4MOZuUjTz1w6XjutuUAj0LBkoZrDn9jNefufV/pNEJE="></script>
+    <script src="/js/add-on.js"></script>
+    </div>
+  </body>
+</html>

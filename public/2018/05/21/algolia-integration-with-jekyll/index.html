@@ -1,0 +1,744 @@
+<!doctype html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8">
+<title>使用Algolia为Gitpage博客提供站内搜索 - Hugo Future Imperfect Slim</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<meta name="generator" content="Hugo 0.68.3" /><meta itemprop="name" content="使用Algolia为Gitpage博客提供站内搜索">
+<meta itemprop="description" content="
+This series of articles are my notes of &ldquo;Bitcoin and Cryptocurrency Technologies&rdquo; online course.
+
+Table of Content
+{:.no_toc}
+
+Table of Content
+{:toc}
+
+Scrooge Coin Transaction
+Scrooge Coin programming assignment is a little bit tricky, the video of this lesson hasn&rsquo;t explained some implementation details. To help you understand the transaction data structure used in Scrooge Coin, I draw this diagram:
+">
+<meta itemprop="datePublished" content="2018-05-21T11:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2018-05-21T11:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="792">
+
+
+
+<meta itemprop="keywords" content="Jekyll:q,Bitcoin," /><meta property="og:title" content="使用Algolia为Gitpage博客提供站内搜索" />
+<meta property="og:description" content="
+This series of articles are my notes of &ldquo;Bitcoin and Cryptocurrency Technologies&rdquo; online course.
+
+Table of Content
+{:.no_toc}
+
+Table of Content
+{:toc}
+
+Scrooge Coin Transaction
+Scrooge Coin programming assignment is a little bit tricky, the video of this lesson hasn&rsquo;t explained some implementation details. To help you understand the transaction data structure used in Scrooge Coin, I draw this diagram:
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/2018/05/21/algolia-integration-with-jekyll/" />
+<meta property="article:published_time" content="2018-05-21T11:00:00+00:00" />
+<meta property="article:modified_time" content="2018-05-21T11:00:00+00:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="使用Algolia为Gitpage博客提供站内搜索"/>
+<meta name="twitter:description" content="
+This series of articles are my notes of &ldquo;Bitcoin and Cryptocurrency Technologies&rdquo; online course.
+
+Table of Content
+{:.no_toc}
+
+Table of Content
+{:toc}
+
+Scrooge Coin Transaction
+Scrooge Coin programming assignment is a little bit tricky, the video of this lesson hasn&rsquo;t explained some implementation details. To help you understand the transaction data structure used in Scrooge Coin, I draw this diagram:
+"/>
+<meta name="twitter:site" content="@example"/>
+<link rel="stylesheet" href="/css/bundle.min.a86839252b4aa4853111ceba45af5da1d6c3dc66a6a3b6854750bb2df61dfe37.css" integrity="sha256-qGg5JStKpIUxEc66Ra9dodbD3Gamo7aFR1C7LfYd/jc=">
+        <link rel="stylesheet" href="/css/add-on.css">
+</head>
+
+  <body>
+    
+<header id="site-header">
+  <nav id="site-nav">
+    <h1 class="nav-title">
+      <a href="/">
+        
+          
+            post
+          
+        
+      </a>
+    </h1>
+    <menu id="site-nav-menu" class="flyout-menu">
+      
+        
+          
+          
+            <a href="/" class="link"><i class='fa fa-home'></i> Home</a>
+          
+        
+      
+        
+          
+          
+            <a href="/about/" class="link"><i class='far fa-id-card'></i> About</a>
+          
+        
+      
+        
+          
+          
+            <a href="/blog/" class="link"><i class='far fa-newspaper'></i> Blog</a>
+          
+        
+      
+        
+          
+          
+            <a href="/categories/" class="link"><i class='fas fa-sitemap'></i> Categories</a>
+          
+        
+      
+        
+          
+          
+            <a href="/contact/" class="link"><i class='far fa-envelope'></i> Contact</a>
+          
+        
+      
+      <a href="#share-menu" class="share-toggle"><i class="fas fa-share-alt">&nbsp;</i>Share</a>
+      
+
+    </menu>
+    
+
+    <a href="#share-menu" class="share-toggle"><i class="fas fa-share-alt fa-2x">&nbsp;</i></a>
+    <a href="#lang-menu" class="lang-toggle" lang="en">en</a>
+    <a href="#site-nav" class="nav-toggle"><i class="fas fa-bars fa-2x"></i></a>
+  </nav>
+  <menu id="lang-menu" class="flyout-menu">
+  <a href="#" lang="en" class="link active">English (en)</a>
+  
+    
+      
+    
+      
+        <a href="/fr" lang="fr" class="no-lang link">Français (fr)</a>
+      
+    
+      
+        <a href="/pl" lang="pl" class="no-lang link">Polski (pl)</a>
+      
+    
+      
+        <a href="/pt" lang="pt" class="no-lang link">Português (pt)</a>
+      
+    
+      
+        <a href="/de" lang="de" class="no-lang link">Deutsche (de)</a>
+      
+    
+      
+        <a href="/es" lang="es" class="no-lang link">Española (es)</a>
+      
+    
+      
+        <a href="/zh-cn" lang="zh-cn" class="no-lang link">中文 (zh-cn)</a>
+      
+    
+      
+        <a href="/zh-tw" lang="zh-tw" class="no-lang link">中文 (zh-tw)</a>
+      
+    
+      
+        <a href="/ja" lang="ja" class="no-lang link">日本語 (ja)</a>
+      
+    
+  
+</menu>
+
+  
+    <menu id="share-menu" class="flyout-menu">
+      <h1>Share Post</h1>
+      
+
+
+
+
+  
+    
+    <a href="//twitter.com/share?text=%e4%bd%bf%e7%94%a8Algolia%e4%b8%baGitpage%e5%8d%9a%e5%ae%a2%e6%8f%90%e4%be%9b%e7%ab%99%e5%86%85%e6%90%9c%e7%b4%a2&amp;url=%2f2018%2f05%2f21%2falgolia-integration-with-jekyll%2f" target="_blank" rel="noopener" class="share-btn twitter">
+        <i class="fab fa-twitter"></i><p>&nbsp;Twitter</p>
+      </a>
+  
+
+  
+      <a href="//www.facebook.com/sharer/sharer.php?u=%2f2018%2f05%2f21%2falgolia-integration-with-jekyll%2f" target="_blank" rel="noopener" class="share-btn facebook">
+        <i class="fab fa-facebook"></i><p>&nbsp;Facebook</p>
+        </a>
+  
+
+  
+    <a href="//www.reddit.com/submit?url=%2f2018%2f05%2f21%2falgolia-integration-with-jekyll%2f&amp;title=%e4%bd%bf%e7%94%a8Algolia%e4%b8%baGitpage%e5%8d%9a%e5%ae%a2%e6%8f%90%e4%be%9b%e7%ab%99%e5%86%85%e6%90%9c%e7%b4%a2" target="_blank" rel="noopener" class="share-btn reddit">
+          <i class="fab fa-reddit-alien"></i><p>&nbsp;Reddit</p>
+        </a>
+  
+
+  
+        <a href="//www.linkedin.com/shareArticle?url=%2f2018%2f05%2f21%2falgolia-integration-with-jekyll%2f&amp;title=%e4%bd%bf%e7%94%a8Algolia%e4%b8%baGitpage%e5%8d%9a%e5%ae%a2%e6%8f%90%e4%be%9b%e7%ab%99%e5%86%85%e6%90%9c%e7%b4%a2" target="_blank" rel="noopener" class="share-btn linkedin">
+            <i class="fab fa-linkedin"></i><p>&nbsp;LinkedIn</p>
+          </a>
+  
+
+  
+        <a href="//www.pinterest.com/pin/create/button/?url=%2f2018%2f05%2f21%2falgolia-integration-with-jekyll%2f&amp;description=%e4%bd%bf%e7%94%a8Algolia%e4%b8%baGitpage%e5%8d%9a%e5%ae%a2%e6%8f%90%e4%be%9b%e7%ab%99%e5%86%85%e6%90%9c%e7%b4%a2" target="_blank" rel="noopener" class="share-btn pinterest">
+          <i class="fab fa-pinterest-p"></i><p>&nbsp;Pinterest</p>
+        </a>
+  
+
+  
+        <a href="mailto:?subject=Check%20out%20this%20post%20by %e8%b5%b5%e5%8c%96%e5%86%b0&amp;body=%2f2018%2f05%2f21%2falgolia-integration-with-jekyll%2f" target="_blank" class="share-btn email" data-proofer-ignore>
+          <i class="fas fa-envelope"></i><p>&nbsp;Email</p>
+        </a>
+  
+
+
+    </menu>
+  
+</header>
+
+    <div id="wrapper">
+      <section id="site-intro" >
+  <a href="/"><img src="/img/main/logo.jpg" class="circle" width="" alt="Hugo Future Imperfect Slim" /></a>
+  <header>
+    <h1>Hugo Future Imperfect Slim</h1>
+  </header>
+  <main>
+    <p>Another fine, responsive site template by <a href='http://html5up.net'>HTML5 UP</a>.</p>
+  </main>
+  
+    <footer>
+      <ul class="socnet-icons">
+        
+
+        <li><a href="//github.com/pacollins/hugo-future-imperfect-slim" target="_blank" rel="noopener" title="GitHub" class="fab fa-github"></a></li>
+
+
+
+
+
+
+<li><a href="//flickr.com/photos/example" target="_blank" rel="noopener" title="Flickr" class="fab fa-flickr"></a></li>
+
+
+
+
+<li><a href="//linkedin.com/in/example" target="_blank" rel="noopener" title="LinkedIn" class="fab fa-linkedin"></a></li>
+<li><a href="//linkedin.com/company/examplebusiness" target="_blank" rel="noopener" title="LinkedIn Company" class="fab fa-linkedin"></a></li>
+
+
+
+<li><a href="//facebook.com/example" target="_blank" rel="noopener" title="Facebook" class="fab fa-facebook"></a></li>
+<li><a href="//reddit.com/user/example" target="_blank" rel="noopener" title="Reddit" class="fab fa-reddit"></a></li>
+
+
+
+
+
+
+
+<li><a href="//instagram.com/example" target="_blank" rel="noopener" title="Instagram" class="fab fa-instagram"></a></li>
+
+<li><a href="//twitter.com/example" target="_blank" rel="noopener" title="Twitter" class="fab fa-twitter"></a></li>
+
+
+<li><a href="//pinterest.com/example" target="_blank" rel="noopener" title="Pinterest" class="fab fa-pinterest-p"></a></li>
+<li><a href="//telegram.me/example" target="_blank" rel="noopener" title="telegram" class="fab fa-telegram"></a></li>
+
+
+
+<li><a href="//researchgate.net/profile/example" target="_blank" rel="noopener" title="Research Gate"><i class="ai ai-researchgate"></i></a></li>
+<li><a href="//keybase.io/example" target="_blank" rel="noopener" title="keybase" class="fab fa-keybase"></a></li>
+<li><a href="//example.com/@example" target="_blank" rel="noopener" title="mastodon" class="fab fa-mastodon"></a></li>
+<li><a href="mailto:example" target="_blank" title="Email" class="far fa-envelope"></a></li>
+
+      </ul>
+    </footer>
+  
+</section>
+
+      <main id="site-main">
+        <article class="post">
+  <header>
+  <div class="title">
+    
+      <h2><a href="/2018/05/21/algolia-integration-with-jekyll/">使用Algolia为Gitpage博客提供站内搜索</a></h2>
+    
+    
+  </div>
+  <div class="meta">
+    <time class="published" datetime="2018-05-21 11:00:00 &#43;0000 UTC">
+      May 21, 2018
+    </time>
+    <span class="author">赵化冰</span>
+    
+      <p>4 minutes read</p>
+    
+  </div>
+</header>
+
+  <section id="socnet-share">
+    
+
+
+
+
+  
+    
+    <a href="//twitter.com/share?text=%e4%bd%bf%e7%94%a8Algolia%e4%b8%baGitpage%e5%8d%9a%e5%ae%a2%e6%8f%90%e4%be%9b%e7%ab%99%e5%86%85%e6%90%9c%e7%b4%a2&amp;url=%2f2018%2f05%2f21%2falgolia-integration-with-jekyll%2f" target="_blank" rel="noopener" class="share-btn twitter">
+        <i class="fab fa-twitter"></i><p>&nbsp;Twitter</p>
+      </a>
+  
+
+  
+      <a href="//www.facebook.com/sharer/sharer.php?u=%2f2018%2f05%2f21%2falgolia-integration-with-jekyll%2f" target="_blank" rel="noopener" class="share-btn facebook">
+        <i class="fab fa-facebook"></i><p>&nbsp;Facebook</p>
+        </a>
+  
+
+  
+    <a href="//www.reddit.com/submit?url=%2f2018%2f05%2f21%2falgolia-integration-with-jekyll%2f&amp;title=%e4%bd%bf%e7%94%a8Algolia%e4%b8%baGitpage%e5%8d%9a%e5%ae%a2%e6%8f%90%e4%be%9b%e7%ab%99%e5%86%85%e6%90%9c%e7%b4%a2" target="_blank" rel="noopener" class="share-btn reddit">
+          <i class="fab fa-reddit-alien"></i><p>&nbsp;Reddit</p>
+        </a>
+  
+
+  
+        <a href="//www.linkedin.com/shareArticle?url=%2f2018%2f05%2f21%2falgolia-integration-with-jekyll%2f&amp;title=%e4%bd%bf%e7%94%a8Algolia%e4%b8%baGitpage%e5%8d%9a%e5%ae%a2%e6%8f%90%e4%be%9b%e7%ab%99%e5%86%85%e6%90%9c%e7%b4%a2" target="_blank" rel="noopener" class="share-btn linkedin">
+            <i class="fab fa-linkedin"></i><p>&nbsp;LinkedIn</p>
+          </a>
+  
+
+  
+        <a href="//www.pinterest.com/pin/create/button/?url=%2f2018%2f05%2f21%2falgolia-integration-with-jekyll%2f&amp;description=%e4%bd%bf%e7%94%a8Algolia%e4%b8%baGitpage%e5%8d%9a%e5%ae%a2%e6%8f%90%e4%be%9b%e7%ab%99%e5%86%85%e6%90%9c%e7%b4%a2" target="_blank" rel="noopener" class="share-btn pinterest">
+          <i class="fab fa-pinterest-p"></i><p>&nbsp;Pinterest</p>
+        </a>
+  
+
+  
+        <a href="mailto:?subject=Check%20out%20this%20post%20by %e8%b5%b5%e5%8c%96%e5%86%b0&amp;body=%2f2018%2f05%2f21%2falgolia-integration-with-jekyll%2f" target="_blank" class="share-btn email" data-proofer-ignore>
+          <i class="fas fa-envelope"></i><p>&nbsp;Email</p>
+        </a>
+  
+
+
+  </section>
+  
+
+  <div class="content">
+    <blockquote>
+<p>This series of articles are my notes of &ldquo;Bitcoin and Cryptocurrency Technologies&rdquo; online course.</p>
+</blockquote>
+<h2 id="table-of-content">Table of Content</h2>
+<p>{:.no_toc}</p>
+<ul>
+<li>Table of Content
+{:toc}</li>
+</ul>
+<h2 id="scrooge-coin-transaction">Scrooge Coin Transaction</h2>
+<p>Scrooge Coin programming assignment is a little bit tricky, the video of this lesson hasn&rsquo;t explained some implementation details. To help you understand the transaction data structure used in Scrooge Coin, I draw this diagram:
+<img src="https://img.zhaohuabing.com/in-post/2018-5-20-cryptocurrency_week1_scroogecoin/scroogecoin.png" alt="Scrooge Coin"></p>
+<p>Every transaction has a set of inputs and a set of outputs. An input in a transaction must use a hash pointer to refer to its corresponding output in the previous transaction, and it must be signed with the private key of the owner because the owner needs to prove he/she agrees to spend his/her coins.</p>
+<p>Every output is correlated to the public key of the receiver, which is his/her ScroogeCoin address.</p>
+<p>In the first transaction, we assume that Scrooge has created 10 coins and assigned them to himself, we don&rsquo;t doubt that because the system-Scroogecoin has a building rule which says that Scrooge has right to create coins.</p>
+<p>In the second transaction,  Scrooge transferred 3.9 coins to Alice and 5.9 coins to Bob. The sum of the two outputs is 0.2 less than the input because the transaction fee was 0.2 coin.</p>
+<p>In the third transaction,  there were two inputs and one output, Alice and Bob transferred 9.7 coins to mike, and the transaction fee was 0.1 coin.</p>
+<h2 id="unclaimed-transaction-outputs-pool">Unclaimed transaction outputs pool</h2>
+<p>Another trick we need to Note when doing the programming assignment is that an UTXOPool is introduced to track the unclaimed outputs (unspent coins), so we can know whether the corresponding output of an input of the transaction is available or not.</p>
+<h2 id="txhandler-java-code">TxHandler Java Code</h2>
+<pre><code>import java.security.PublicKey;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+public class TxHandler {
+	private UTXOPool utxoPool;
+
+	/**
+	 * Creates a public ledger whose current UTXOPool (collection of unspent
+	 * transaction outputs) is {@code utxoPool}. This should make a copy of utxoPool
+	 * by using the UTXOPool(UTXOPool uPool) constructor.
+	 */
+	public TxHandler(UTXOPool utxoPool) {
+		this.utxoPool = new UTXOPool(utxoPool);
+	}
+
+	/**
+	 * @return true if: (1) all outputs claimed by {@code tx} are in the current
+	 *         UTXO pool, (2) the signatures on each input of {@code tx} are valid,
+	 *         (3) no UTXO is claimed multiple times by {@code tx}, (4) all of
+	 *         {@code tx}s output values are non-negative, and (5) the sum of
+	 *         {@code tx}s input values is greater than or equal to the sum of its
+	 *         output values; and false otherwise.
+	 */
+	public boolean isValidTx(Transaction tx) {
+		Set&lt;UTXO&gt; claimedUTXO = new HashSet&lt;UTXO&gt;();
+		double inputSum = 0;
+		double outputSum = 0;
+
+		List&lt;Transaction.Input&gt; inputs = tx.getInputs();
+		for (int i = 0; i &lt; inputs.size(); i++) {
+			Transaction.Input input = inputs.get(i);
+
+			if (!isConsumedCoinAvailable(input)) {
+				return false;
+			}
+
+			if (!verifySignatureOfConsumeCoin(tx, i, input)) {
+				return false;
+			}
+
+			if (isCoinConsumedMultipleTimes(claimedUTXO, input)) {
+				return false;
+			}
+
+			UTXO utxo = new UTXO(input.prevTxHash, input.outputIndex);
+			Transaction.Output correspondingOutput = utxoPool.getTxOutput(utxo);
+			inputSum += correspondingOutput.value;
+
+		}
+
+		List&lt;Transaction.Output&gt; outputs = tx.getOutputs();
+		for (int i = 0; i &lt; outputs.size(); i++) {
+			Transaction.Output output = outputs.get(i);
+			if (output.value &lt;= 0) {
+				return false;
+			}
+
+			outputSum += output.value;
+		}
+
+		// Should the input value and output value be equal? Otherwise the ledger will
+		// become unbalanced.
+		// The difference between inputSum and outputSum is the transaction fee
+		if (outputSum &gt; inputSum) {
+			return false;
+		}
+
+		return true;
+	}
+
+	private boolean isCoinConsumedMultipleTimes(Set&lt;UTXO&gt; claimedUTXO, Transaction.Input input) {
+		UTXO utxo = new UTXO(input.prevTxHash, input.outputIndex);
+		return !claimedUTXO.add(utxo);
+	}
+
+	private boolean verifySignatureOfConsumeCoin(Transaction tx, int index, Transaction.Input input) {
+		UTXO utxo = new UTXO(input.prevTxHash, input.outputIndex);
+		Transaction.Output correspondingOutput = utxoPool.getTxOutput(utxo);
+		PublicKey pk = correspondingOutput.address;
+		return Crypto.verifySignature(pk, tx.getRawDataToSign(index), input.signature);
+	}
+
+	private boolean isConsumedCoinAvailable(Transaction.Input input) {
+		UTXO utxo = new UTXO(input.prevTxHash, input.outputIndex);
+		return utxoPool.contains(utxo);
+	}
+
+	/**
+	 * Handles each epoch by receiving an unordered array of proposed transactions,
+	 * checking each transaction for correctness, returning a mutually valid array
+	 * of accepted transactions, and updating the current UTXO pool as appropriate.
+	 */
+	public Transaction[] handleTxs(Transaction[] possibleTxs) {
+		List&lt;Transaction&gt; acceptedTx = new ArrayList&lt;Transaction&gt;();
+		for (int i = 0; i &lt; possibleTxs.length; i++) {
+			Transaction tx = possibleTxs[i];
+			if (isValidTx(tx)) {
+				acceptedTx.add(tx);
+
+				removeConsumedCoinsFromPool(tx);
+				addCreatedCoinsToPool(tx);
+			}
+		}
+
+		Transaction[] result = new Transaction[acceptedTx.size()];
+		acceptedTx.toArray(result);
+		return result;
+	}
+
+	private void addCreatedCoinsToPool(Transaction tx) {
+		List&lt;Transaction.Output&gt; outputs = tx.getOutputs();
+		for (int j = 0; j &lt; outputs.size(); j++) {
+			Transaction.Output output = outputs.get(j);
+			UTXO utxo = new UTXO(tx.getHash(), j);
+			utxoPool.addUTXO(utxo, output);
+		}
+	}
+
+	private void removeConsumedCoinsFromPool(Transaction tx) {
+		List&lt;Transaction.Input&gt; inputs = tx.getInputs();
+		for (int j = 0; j &lt; inputs.size(); j++) {
+			Transaction.Input input = inputs.get(j);
+			UTXO utxo = new UTXO(input.prevTxHash, input.outputIndex);
+			utxoPool.removeUTXO(utxo);
+		}
+	}
+
+}
+</code></pre><h2 id="all-the-example-codes-on-github">All the Example Codes on GitHub</h2>
+<p>I wrap the codes into a maven project, just run <code>mvn test</code> then the example codes will build and run all the test cases.</p>
+<p><a href="https://github.com/zhaohuabing/scroogecoin">Scrooge Coin example in Java</a></p>
+  </div>
+  <footer>
+    <ul class="stats">
+  
+    
+    
+      <li class="categories">
+        <ul>
+          
+            
+            <li><a class="article-category-link" href="/categories/note">Note</a></li>
+          
+        </ul>
+      </li>
+    
+  
+  
+    
+    
+      <li class="tags">
+        <ul>
+          
+            
+            <li><a class="article-category-link" href="/tags/jekyllq">Jekyll:q</a></li>
+          
+            
+            <li><a class="article-category-link" href="/tags/bitcoin">Bitcoin</a></li>
+          
+        </ul>
+      </li>
+    
+  
+</ul>
+
+  </footer>
+</article>
+
+
+<div class="pagination">
+  
+    <a href="/2018/05/01/may-day-jiulonghu/" class="button"><div class="previous"><div>川西秘境探险</div></div></a>
+  
+  
+    <a href="/2018/05/23/istio-auto-injection-with-webhook/" class="button"><div class="next"><div>Istio Sidecar自动注入原理</div></div></a>
+  
+</div>
+
+
+      </main>
+      <section id="site-sidebar">
+  
+    <section id="recent-posts">
+      <header>
+        <h1>Recent posts</h1>
+      </header>
+      
+      <article class="mini-post">
+        <section>
+          
+
+        </section>
+        <header>
+          <h1><a href="/post/">Post</a></h1>
+          <time class="published" datetime="">January 24, 2020</time>
+        </header>
+      </article>
+      
+      <article class="mini-post">
+        <section>
+          
+
+        </section>
+        <header>
+          <h1><a href="/posts/rich-content/">Rich Content</a></h1>
+          <time class="published" datetime="">January 2, 2020</time>
+        </header>
+      </article>
+      
+      <article class="mini-post">
+        <section>
+          
+
+        </section>
+        <header>
+          <h1><a href="/posts/placeholder-text/">Placeholder Text</a></h1>
+          <time class="published" datetime="">December 17, 2019</time>
+        </header>
+      </article>
+      
+      <article class="mini-post">
+        <section>
+          
+
+        </section>
+        <header>
+          <h1><a href="/posts/math-typesetting/">Math Typesetting</a></h1>
+          <time class="published" datetime="">December 12, 2019</time>
+        </header>
+      </article>
+      
+      <article class="mini-post">
+        <section>
+          
+
+        </section>
+        <header>
+          <h1><a href="/post/readme/">Clean White Theme for Hugo</a></h1>
+          <time class="published" datetime="">January 9, 2019</time>
+        </header>
+      </article>
+      
+      
+        <a href="/blog/" class="button">See more</a>
+      
+    </section>
+  
+
+  
+    
+      <section id="categories">
+        <header>
+          <h1><a href="/categories">Categories</a></h1>
+        </header>
+        <ul>
+          
+            
+          
+          
+          <li>
+            
+              <a href="/categories/tech/">tech<span class="count">15</span></a>
+            
+          
+          <li>
+            
+              <a href="/categories/tips/">tips<span class="count">4</span></a>
+            
+          
+          <li>
+            
+              <a href="/categories/life/">life<span class="count">1</span></a>
+            
+          
+          <li>
+            
+              <a href="/categories/note/">note<span class="count">1</span></a>
+            
+          
+          <li>
+            
+              <a href="/categories/r/">r<span class="count">1</span></a>
+            
+          
+          <li>
+            
+              <a href="/categories/syntax/">syntax<span class="count">1</span></a>
+            
+          
+          <li>
+            
+              <a href="/categories/themes/">themes<span class="count">1</span></a>
+            
+          
+          </li>
+        </ul>
+      </section>
+    
+  
+
+  
+    <section id="mini-bio">
+      <header>
+        <h1>About</h1>
+      </header>
+      <p>test</p>
+      <footer>
+        <a href="/about" class="button">Learn More</a>
+      </footer>
+    </section>
+  
+</section>
+
+      <footer id="site-footer">
+  
+      <ul class="socnet-icons">
+        
+
+        <li><a href="//github.com/pacollins/hugo-future-imperfect-slim" target="_blank" rel="noopener" title="GitHub" class="fab fa-github"></a></li>
+
+
+
+
+
+
+<li><a href="//flickr.com/photos/example" target="_blank" rel="noopener" title="Flickr" class="fab fa-flickr"></a></li>
+
+
+
+
+<li><a href="//linkedin.com/in/example" target="_blank" rel="noopener" title="LinkedIn" class="fab fa-linkedin"></a></li>
+<li><a href="//linkedin.com/company/examplebusiness" target="_blank" rel="noopener" title="LinkedIn Company" class="fab fa-linkedin"></a></li>
+
+
+
+<li><a href="//facebook.com/example" target="_blank" rel="noopener" title="Facebook" class="fab fa-facebook"></a></li>
+<li><a href="//reddit.com/user/example" target="_blank" rel="noopener" title="Reddit" class="fab fa-reddit"></a></li>
+
+
+
+
+
+
+
+<li><a href="//instagram.com/example" target="_blank" rel="noopener" title="Instagram" class="fab fa-instagram"></a></li>
+
+<li><a href="//twitter.com/example" target="_blank" rel="noopener" title="Twitter" class="fab fa-twitter"></a></li>
+
+
+<li><a href="//pinterest.com/example" target="_blank" rel="noopener" title="Pinterest" class="fab fa-pinterest-p"></a></li>
+<li><a href="//telegram.me/example" target="_blank" rel="noopener" title="telegram" class="fab fa-telegram"></a></li>
+
+
+
+<li><a href="//researchgate.net/profile/example" target="_blank" rel="noopener" title="Research Gate"><i class="ai ai-researchgate"></i></a></li>
+<li><a href="//keybase.io/example" target="_blank" rel="noopener" title="keybase" class="fab fa-keybase"></a></li>
+<li><a href="//example.com/@example" target="_blank" rel="noopener" title="mastodon" class="fab fa-mastodon"></a></li>
+<li><a href="mailto:example" target="_blank" title="Email" class="far fa-envelope"></a></li>
+
+      </ul>
+  
+  <p class="copyright">
+    
+      &copy; 2020
+      
+        Hugo Future Imperfect Slim
+      
+    . <br>
+    Theme: <a href='https://github.com/pacollins/hugo-future-imperfect-slim' target='_blank' rel='noopener'>Hugo Future Imperfect Slim</a><br>A <a href='https://html5up.net/future-imperfect' target='_blank' rel='noopener'>HTML5 UP port</a> | Powered by <a href='https://gohugo.io/' title='0.68.3' target='_blank' rel='noopener'>Hugo</a>
+  </p>
+</footer>
+<a id="back-to-top" href="#" class="fas fa-arrow-up fa-2x"></a>
+
+      <script src="/js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script><script src="/js/bundle.min.e0c399b948d3cf5c3a5e3badb94023d0b064a19ac39fd8cd79fb9f57fa4d1091.js" integrity="sha256-4MOZuUjTz1w6XjutuUAj0LBkoZrDn9jNefufV/pNEJE="></script>
+    <script src="/js/add-on.js"></script>
+    </div>
+  </body>
+</html>
